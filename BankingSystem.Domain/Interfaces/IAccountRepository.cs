@@ -13,5 +13,6 @@ namespace BankingSystem.Domain.Interfaces
         Task<Account>       CreateAsync(Account account);
         Task<Account?>      UpdateAsync(Account account);
         Task<bool>          ExistsWithAccountNumberAsync(string accountNumber);
+        Task SaveChangesAsync();
     }
 }

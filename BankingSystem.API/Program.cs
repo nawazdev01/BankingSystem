@@ -1,3 +1,4 @@
+using BankingSystem.API.Middleware;
 using BankingSystem.Application.Services;
 using BankingSystem.Domain.Interfaces;
 using BankingSystem.Infrastructure.Data;
@@ -22,6 +23,8 @@ builder.Services.AddScoped<ICustomerRepository,    CustomerRepository>();
 builder.Services.AddScoped<IAccountRepository,     AccountRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ILoanRepository,        LoanRepository>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // ── Services ────────────────────────────────────────────
 builder.Services.AddScoped<ITokenService,       TokenService>();
@@ -82,6 +85,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 // ── Auto apply migrations ───────────────────────────────
@@ -91,6 +97,9 @@ using (var scope = app.Services.CreateScope())
         .GetRequiredService<BankingDbContext>();
     db.Database.Migrate();
 }
+
+app.UseExceptionHandler();
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 // ── Middleware Pipeline ─────────────────────────────────
 if (app.Environment.IsDevelopment())

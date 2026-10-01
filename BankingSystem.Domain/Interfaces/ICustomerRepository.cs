@@ -11,6 +11,7 @@ namespace BankingSystem.Domain.Interfaces
         Task<Customer>       CreateAsync(Customer customer);
         Task<Customer?>      UpdateAsync(Customer customer);
         Task<bool?>          DeactivateAsync(int id);
+        Task<bool?>          VerifyKYCAsync(int id);
         Task<bool>           ExistsWithUsernameAsync(string username);
         Task<bool>           ExistsWithEmailAsync(string email);
         Task<bool>           ExistsWithNationalIdAsync(string nationalId);
