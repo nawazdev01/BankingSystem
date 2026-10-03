@@ -4,6 +4,9 @@ using BankingSystem.Domain.Interfaces;
 using BankingSystem.Infrastructure.Data;
 using BankingSystem.Infrastructure.Repositories;
 using BankingSystem.Infrastructure.Services;
+using BankingSystem.Application.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -55,6 +58,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterStaffRequestValidator>();
 builder.Services.AddEndpointsApiExplorer();
 
 // ── Swagger with JWT ────────────────────────────────────
